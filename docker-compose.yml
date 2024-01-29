@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  django:
+    # Change to dockerfile path for django app
+    build:
+      context: /home/alex/Documents/Code/Python/sample_website_for_mass_production
+      dockerfile: Dockerfile.prod
+    ports:
+      - "7880:3000"
+    environment:
+      - DJANGO_ENV=development
+
+  react:
+    # Change to dockerfile path for app
+    build:
+      context: /home/alex/Documents/Code/Javascript/sample_children_book_frontend/childbook
+      dockerfile: Dockerfile.prod
+
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - django

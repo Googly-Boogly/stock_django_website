@@ -1,0 +1,16 @@
+FROM python:3.11-slim-bookworm
+
+WORKDIR /defaultpage
+COPY ./defaultpage /defaultpage
+
+COPY requirements.txt .
+
+RUN apt-get update -y && apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends build-essential gcc && \
+    pip install --upgrade pip && \
+    pip install -r requirements.txt && \
+    pip install gunicorn  # Install uWSGI
+
+EXPOSE 3000
+
+CMD ["gunicorn", "defaultpage.wsgi:application", "--bind", "0.0.0.0:3000"]
